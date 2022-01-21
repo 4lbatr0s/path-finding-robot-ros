@@ -1,0 +1,2 @@
+m2wr_description
+-DCATKIN_DEVEL_PREFIX=/home/serhatoner/Desktop/Proje/simulation_ws/devel -DCMAKE_INSTALL_PREFIX=/home/serhatoner/Desktop/Proje/simulation_ws/install -G Unix Makefiles
