@@ -1,16 +1,16 @@
 <?xml version="1.0" ?>
 <robot name="m2wr" xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:include filename="$(find m2wr_description)/urdf/materials.xacro" />
-  <xacro:include filename="$(find m2wr_description)/urdf/m2wr.gazebo" />
-  <xacro:include filename="$(find m2wr_description)/urdf/macros.xacro" />
-  <link name="dummy"/>
-  <joint name="dummy_joint" type="fixed">
-    <parent link="dummy"/>
-    <child link="link_chassis"/>
-  </joint>
+  <xacro:include filename="$(find m2wr_description)/urdf/materials.xacro"/>
+  <xacro:include filename="$(find m2wr_description)/urdf/m2wr.gazebo"/>
+  <xacro:include filename="$(find m2wr_description)/urdf/macros.xacro"/>
 
-  <link name="link_chassis">
-    <!-- pose and inertial -->
+  <!-- <link name="dummy"/>
+    <joint name="dummy_joint" type="fixed">
+      <parent link="dummy"/>
+      <child link="link_chassis"/>
+    </joint>
+   <!-->
+  <link name="link_chassis"> -->
     <pose>0 0 0.1 0 0 0</pose>
     <inertial>
       <mass value="5"/>
@@ -55,18 +55,11 @@
     </visual>
   </link>
 
-   <link name="sensor_laser">
+  <link name="sensor_laser">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <mass value="1" />
-      <!-- RANDOM INERTIA BELOW -->
-      
-      <!--
-        OLD INERTIA VALUE - BEFORE RANDOM VALUE INSERTED USING MACROS
-        <inertia ixx="0.02" ixy="0" ixz="0" iyy="0.02" iyz="0" izz="0.02"/>  
-      -->
       <xacro:cylinder_inertia mass="1" r="0.05" l="0.1" />
-      
     </inertial>
     
     <visual>
@@ -76,7 +69,7 @@
       </geometry>
       <material name="white" />
     </visual>
-
+    
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
@@ -84,18 +77,18 @@
       </geometry>
     </collision>
   </link>
-
+  
   <joint name="joint_sensor_laser" type="fixed">
     <origin xyz="0.15 0 0.05" rpy="0 0 0"/>
     <parent link="link_chassis"/>
     <child link="sensor_laser"/>
   </joint>
 
-  
-  <xacro:link_wheel name="link_right_wheel" /> 
-  <xacro:joint_wheel name="joint_right_wheel" child="link_right_wheel" origin_xyz="-0.05 0.15 0" />
+  <xacro:link_wheel name="link_right_wheel"/>
+  <xacro:joint_wheel name="joint_right_wheel" child="link_right_wheel" origin_xyz="-0.05 0.15 0"/>
 
-  <xacro:link_wheel name="link_left_wheel" />
-  <xacro:joint_wheel name="joint_left_wheel" child="link_left_wheel" origin_xyz="-0.05 -0.15 0" />
-  
+  <xacro:link_wheel name="link_left_wheel"/>
+  <xacro:joint_wheel name="joint_left_wheel" child="link_left_wheel" origin_xyz="-0.05 -0.15 0"/>
 </robot>
+
+

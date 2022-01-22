@@ -1,0 +1,2 @@
+motion_plan
+-DCATKIN_DEVEL_PREFIX=/home/serhatoner/Desktop/Proje/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/serhatoner/Desktop/Proje/catkin_ws/install -G Unix Makefiles

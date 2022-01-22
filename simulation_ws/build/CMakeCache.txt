@@ -452,6 +452,12 @@ m2wr_description_SOURCE_DIR:STATIC=/home/serhatoner/Desktop/Proje/simulation_ws/
 //The directory containing a CMake configuration file for message_runtime.
 message_runtime_DIR:PATH=/opt/ros/noetic/share/message_runtime/cmake
 
+//Value Computed by CMake
+my_worlds_BINARY_DIR:STATIC=/home/serhatoner/Desktop/Proje/simulation_ws/build/my_worlds
+
+//Value Computed by CMake
+my_worlds_SOURCE_DIR:STATIC=/home/serhatoner/Desktop/Proje/simulation_ws/src/my_worlds
+
 //The directory containing a CMake configuration file for pluginlib.
 pluginlib_DIR:PATH=/opt/ros/noetic/share/pluginlib/cmake
 
