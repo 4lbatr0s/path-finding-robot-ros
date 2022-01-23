@@ -1,16 +1,12 @@
 <?xml version="1.0" ?>
 <robot name="m2wr" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
   <xacro:include filename="$(find m2wr_description)/urdf/materials.xacro"/>
   <xacro:include filename="$(find m2wr_description)/urdf/m2wr.gazebo"/>
   <xacro:include filename="$(find m2wr_description)/urdf/macros.xacro"/>
 
-  <!-- <link name="dummy"/>
-    <joint name="dummy_joint" type="fixed">
-      <parent link="dummy"/>
-      <child link="link_chassis"/>
-    </joint>
-   <!-->
-  <link name="link_chassis"> -->
+  <link name="link_chassis">
+    <!-- pose and inertial -->
     <pose>0 0 0.1 0 0 0</pose>
     <inertial>
       <mass value="5"/>
@@ -90,5 +86,3 @@
   <xacro:link_wheel name="link_left_wheel"/>
   <xacro:joint_wheel name="joint_left_wheel" child="link_left_wheel" origin_xyz="-0.05 -0.15 0"/>
 </robot>
-
-

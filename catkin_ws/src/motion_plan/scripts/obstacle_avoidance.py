@@ -1,5 +1,4 @@
-#! /usr/bin/env python
-
+#! /usr/bin/env python3
 import rospy
 
 from sensor_msgs.msg import LaserScan
@@ -7,17 +6,19 @@ from geometry_msgs.msg import Twist
 
 pub = None
 
+
 def clbk_laser(msg):
     max_distance = 10
     regions = {
-            'right': min(max_distance, min(msg.ranges[0:144])),
-            'fright': min(max_distance, min(msg.ranges[144:288])),
-            'front': min(max_distance, min(msg.ranges[288:432])),
-            'fleft': min(max_distance, min(msg.ranges[432:576])),
-            'left': min(max_distance, min(msg.ranges[576:720]))
-            }
+        'sag': min(max_distance, min(msg.ranges[0:144])),
+        'sag_on': min(max_distance, min(msg.ranges[144:288])),
+        'on': min(max_distance, min(msg.ranges[288:432])),
+        'sol_on': min(max_distance, min(msg.ranges[432:576])),
+        'sol': min(max_distance, min(msg.ranges[576:720]))
+    }
 
     take_action(regions)
+
 
 def take_action(regions):
     msg = Twist()
@@ -26,46 +27,47 @@ def take_action(regions):
 
     state_description = ''
 
-    if regions['front'] > 1 and regions['fleft'] > 1 and regions['fright'] > 1:
-        state_description = 'case 1 - nothing'
+    if regions['on'] > 1 and regions['sol_on'] > 1 and regions['sag_on'] > 1:
+        state_description = 'engel_yok'
         linear_x = 0.6
         angular_z = 0
-    elif regions['front'] < 1 and regions['fleft'] > 1 and regions['fright'] > 1:
-        state_description = 'case 2 - front'
+    elif regions['on'] < 1 and regions['sol_on'] > 1 and regions['sag_on'] > 1:
+        state_description = 'engel_onde'
         linear_x = 0
         angular_z = -0.3
-    elif regions['front'] > 1 and regions['fleft'] > 1 and regions['fright'] < 1:
-        state_description = 'case 3 - fright'
+    elif regions['on'] > 1 and regions['sol_on'] > 1 and regions['sag_on'] < 1:
+        state_description = 'engel_sag_onde'
         linear_x = 0
         angular_z = -0.3
-    elif regions['front'] > 1 and regions['fleft'] < 1 and regions['fright'] > 1:
-        state_description = 'case 4 - fleft'
+    elif regions['on'] > 1 and regions['sol_on'] < 1 and regions['sag_on'] > 1:
+        state_description = 'engel_sol_onde'
         linear_x = 0
         angular_z = 0.3
-    elif regions['front'] < 1 and regions['fleft'] > 1 and regions['fright'] < 1:
-        state_description = 'case 5 - front and fright'
+    elif regions['on'] < 1 and regions['sol_on'] > 1 and regions['sag_on'] < 1:
+        state_description = 'engel_onde_ve_sag_onde'
         linear_x = 0
         angular_z = -0.3
-    elif regions['front'] < 1 and regions['fleft'] < 1 and regions['fright'] > 1:
-        state_description = 'case 6 - front and fleft'
+    elif regions['on'] < 1 and regions['sol_on'] < 1 and regions['sag_on'] > 1:
+        state_description = 'engel_onde_ve_sol_onde'
         linear_x = 0
         angular_z = 0.3
-    elif regions['front'] < 1 and regions['fleft'] < 1 and regions['fright'] < 1:
-        state_description = 'case 7 - front and fleft and fright'
+    elif regions['on'] < 1 and regions['sol_on'] < 1 and regions['sag_on'] < 1:
+        state_description = 'engel_onde_sol_onde_ve_sag_onde'
         linear_x = 0
         angular_z = -0.3
-    elif regions['front'] > 1 and regions['fleft'] < 1 and regions['fright'] < 1:
-        state_description = 'case 8 - fleft and fright'
+    elif regions['on'] > 1 and regions['sol_on'] < 1 and regions['sag_on'] < 1:
+        state_description = 'engel_sag_onde_ve_sol_onde'
         linear_x = 0
         angular_z = -0.3
     else:
-        state_description = 'unknown case'
+        state_description = 'bilinmeyen durum'
         rospy.loginfo(regions)
 
     rospy.loginfo(state_description)
     msg.linear.x = linear_x
     msg.angular.z = angular_z
     pub.publish(msg)
+
 
 def main():
     global pub
